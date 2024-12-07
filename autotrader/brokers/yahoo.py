@@ -102,9 +102,11 @@ class Broker(Broker):
             )
 
         # Fetch data
+        print('checking')
         data = self.api(
             tickers=instrument, start=start_time, end=end_time, interval=granularity
         )
+        print('ok')
 
         # Remove excess data
         if count is not None and start_time is None and end_time is None:
