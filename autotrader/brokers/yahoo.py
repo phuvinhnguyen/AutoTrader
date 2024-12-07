@@ -104,21 +104,26 @@ class Broker(Broker):
                 seconds=self._granularity_to_seconds(granularity, "yahoo") * 1.5 * count
             )
         print('ok')
-        time.sleep(500)
 
         # Fetch data
         data = self.api(
             tickers=instrument, start=start_time, end=end_time, interval=granularity
         )
 
+        print('ok 2')
+
         # Remove excess data
         if count is not None and start_time is None and end_time is None:
             data = data.tail(count)
+
+        print('ok 3')
 
         # fix for appending Ticker Symbol - Tested for Single Ticker download only
         if isinstance(data.columns, pd.MultiIndex):
             data.columns = data.columns.droplevel(1)
             data.drop(columns=['Adj Close'], inplace=True)
+
+        print('ok 4')
 
         data.columns = [col.split(" ")[-1] for col in data.columns]
 
@@ -128,6 +133,9 @@ class Broker(Broker):
         else:
             # Convert to UTC
             data.index = data.index.tz_convert(timezone.utc)
+
+        print('ok 5')
+        time.sleep(50000)
 
         data.index = pd.to_datetime(data.index).tz_localize(None)
 
