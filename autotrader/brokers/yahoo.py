@@ -38,6 +38,7 @@ class Broker(Broker):
         *args,
         **kwargs,
     ) -> pd.DataFrame:
+        print(f"Starting to download {instrument} data.")
         """Retrieves historical price data from yahoo finance.
 
         Parameters
