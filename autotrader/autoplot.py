@@ -518,14 +518,15 @@ class AutoPlot:
 
         # If self._data['date'] is timezone-aware (e.g., UTC), make data['date'] the same timezone-aware
         if self._data['date'].dt.tz is not None:
-            print("data.index")
-            print(data.index)
             if data.index.tz is None:
-                data.index = data.index.tz_localize("UTC")
+                data.index = data.index.tz_localize(self._data['date'].dt.tz)
             else:
-                data['date'] = data.index.tz_convert('UTC')  # Adjust to match the timezone (UTC)
+                data['date'] = data.index.tz_convert(self._data['date'].dt.tz)
         else:
-            data['date'] = data.index.tz_localize(None)  # Make timezone-naive if self._data['date'] is naive
+            if data.index.tz is None:
+                data.index = data.index.tz_localize(None)
+            else:
+                data['date'] = data.index.tz_convert(None)
 
         merged_data = pd.merge(
             self._data, data, left_on="date", right_index=True
