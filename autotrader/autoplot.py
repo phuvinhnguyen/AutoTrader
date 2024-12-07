@@ -520,9 +520,6 @@ class AutoPlot:
         _data = self._data.copy(deep=True)
         _data['date'] = _data['date'].dt.tz_localize(None)
         data.index = data.index.tz_localize(None)
-        print('---')
-        print(data.index)
-        print(_data['date'])
 
         merged_data = pd.merge(
             _data, data, left_on="date", right_index=True
@@ -969,8 +966,10 @@ class AutoPlot:
                             # Timeseries provided, merge indexes
                             if indicators[indicator]["data"].name is None:
                                 indicators[indicator]["data"].name = "data"
+                            _data = self._data.copy(deep=True)
+                            _data['date'] = _data['date'].dt.tz_localize(None)
                             merged_indicator_data = pd.merge(
-                                self._data,
+                                _data,
                                 indicators[indicator]["data"],
                                 left_on="date",
                                 right_index=True,
