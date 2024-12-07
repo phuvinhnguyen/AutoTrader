@@ -2,7 +2,6 @@ from __future__ import annotations
 import pandas as pd
 from autotrader.brokers.broker import Broker
 from datetime import datetime, timezone, timedelta
-import time
 
 try:
     import yfinance
@@ -39,7 +38,6 @@ class Broker(Broker):
         *args,
         **kwargs,
     ) -> pd.DataFrame:
-        print(f"Starting to download {instrument} data.")
         """Retrieves historical price data from yahoo finance.
 
         Parameters
@@ -96,34 +94,26 @@ class Broker(Broker):
                 + "valid for Yahoo Finance."
             )
 
-        print('checking')
         if count is not None and start_time is None and end_time is None:
             # Convert count to start and end dates (assumes end=now)
             end_time = datetime.now()
             start_time = end_time - timedelta(
                 seconds=self._granularity_to_seconds(granularity, "yahoo") * 1.5 * count
             )
-        print('ok')
 
         # Fetch data
         data = self.api(
             tickers=instrument, start=start_time, end=end_time, interval=granularity
         )
 
-        print('ok 2')
-
         # Remove excess data
         if count is not None and start_time is None and end_time is None:
             data = data.tail(count)
-
-        print('ok 3')
 
         # fix for appending Ticker Symbol - Tested for Single Ticker download only
         if isinstance(data.columns, pd.MultiIndex):
             data.columns = data.columns.droplevel(1)
             data.drop(columns=['Adj Close'], inplace=True)
-
-        print('ok 4')
 
         data.columns = [col.split(" ")[-1] for col in data.columns]
 
@@ -133,9 +123,6 @@ class Broker(Broker):
         else:
             # Convert to UTC
             data.index = data.index.tz_convert(timezone.utc)
-
-        print('ok 5')
-        time.sleep(5)
 
         data.index = pd.to_datetime(data.index).tz_localize(None)
 
