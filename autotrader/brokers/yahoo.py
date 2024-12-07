@@ -135,7 +135,7 @@ class Broker(Broker):
             data.index = data.index.tz_convert(timezone.utc)
 
         print('ok 5')
-        time.sleep(50000)
+        time.sleep(5)
 
         data.index = pd.to_datetime(data.index).tz_localize(None)
 
