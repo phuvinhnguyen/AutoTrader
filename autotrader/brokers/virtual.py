@@ -695,7 +695,6 @@ class Broker(AbstractBroker):
             # Add to cache
             self._data_cache[instrument] = candles
 
-        print('middleeeeeeeeeeeeeeeeeeeeeee')
 
         # Remove future data
         # TODO - review future check logic - need to account for candle duration
@@ -710,7 +709,7 @@ class Broker(AbstractBroker):
         else:
             # Backtesting - check for lookahead
             print('backtestttttttttttttttttttt')
-            candles = candles.loc[candles.index < self._latest_time].tail(count)
+            candles = candles.loc[candles.index.to_pydatetime() < self._latest_time].tail(count)
         print('endddddddddddddddddddddddddd')
 
         return candles
