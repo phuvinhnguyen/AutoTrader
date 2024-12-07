@@ -516,7 +516,12 @@ class AutoPlot:
             if data.name is None:
                 data.name = "name"
 
-        data = data.tz_localize(None)
+        # If self._data['date'] is timezone-aware (e.g., UTC), make data['date'] the same timezone-aware
+        if self._data['date'].dt.tz is not None:
+            data['date'] = data['date'].dt.tz_localize('UTC')  # Adjust to match the timezone (UTC)
+        else:
+            data['date'] = data['date'].dt.tz_localize(None)  # Make timezone-naive if self._data['date'] is naive
+
         merged_data = pd.merge(
             self._data, data, left_on="date", right_index=True
         ).fillna("")
