@@ -704,12 +704,12 @@ class Broker(AbstractBroker):
         count = count if count is not None else len(candles)
         if self._paper_trading:
             # Do not need to to a time check
-            print('papertradingggggggggggggggggggggg')
             candles = candles.tail(count)
         else:
             # Backtesting - check for lookahead
-            print('backtestttttttttttttttttttt')
-            candles = candles.loc[candles.index.to_pydatetime() < self._latest_time].tail(count)
+            print(self.candles.index)
+            print(self._latest_time)
+            candles = candles.loc[candles.index < self._latest_time].tail(count)
         print('endddddddddddddddddddddddddd')
 
         return candles
