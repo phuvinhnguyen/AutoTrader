@@ -616,6 +616,7 @@ class Broker(AbstractBroker):
         """
 
         # Get all instrument fills
+        print('noooooooooooooooooooooooooooo')
         all_trades = self._fills
 
         if instrument:
@@ -625,6 +626,7 @@ class Broker(AbstractBroker):
         else:
             # Return all trades
             trades = all_trades
+        print('hiiiiiiiiiiiiiiiiiiiiiiiiii')
 
         # Convert to a dict with keys by id
         trades_dict = {fill.id: fill for fill in all_trades}
