@@ -110,12 +110,21 @@ class Broker(Broker):
         if count is not None and start_time is None and end_time is None:
             data = data.tail(count)
 
+        # fix for appending Ticker Symbol - Tested for Single Ticker download only
+        if isinstance(data.columns, pd.MultiIndex):
+            data.columns = data.columns.droplevel(1)
+            data.drop(columns=['Adj Close'], inplace=True)
+
+        data.columns = [col.split(" ")[-1] for col in data.columns]
+
         if data.index.tzinfo is None:
             # Data is naive, add UTC timezone
             data.index = data.index.tz_localize(timezone.utc)
         else:
             # Convert to UTC
             data.index = data.index.tz_convert(timezone.utc)
+
+        data.index = pd.to_datetime(data.index).tz_localize(None)
 
         return data
 
