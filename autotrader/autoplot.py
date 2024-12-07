@@ -518,6 +518,7 @@ class AutoPlot:
 
         # If self._data['date'] is timezone-aware (e.g., UTC), make data['date'] the same timezone-aware
         if self._data['date'].dt.tz is not None:
+            print("data.index")
             print(data.index)
             data['date'] = data.index.tz_convert('UTC')  # Adjust to match the timezone (UTC)
         else:
