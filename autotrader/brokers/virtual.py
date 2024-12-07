@@ -726,6 +726,7 @@ class Broker(AbstractBroker):
             # Backtesting, use local pseudo-orderbook
             # TODO - reimplement spread parameters
             candles = self._data_cache[instrument]
+            candles = candles.tz_localize(self._latest_time.tzinfo)
             timesafe_candle = candles.loc[candles.index <= self._latest_time]
             latest_bar = timesafe_candle.iloc[-1]
             midprice = latest_bar["Close"]
