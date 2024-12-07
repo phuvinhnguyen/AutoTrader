@@ -519,6 +519,7 @@ class AutoPlot:
         # If self._data['date'] is timezone-aware (e.g., UTC), make data['date'] the same timezone-aware
         _data = self._data.copy(deep=True)
         _data['date'] = _data['date'].dt.tz_localize(None)
+        data.index = data.index.tz_localize(None)
         print('---')
         print(data.index)
         print(_data['date'])
