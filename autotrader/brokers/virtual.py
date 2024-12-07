@@ -676,7 +676,6 @@ class Broker(AbstractBroker):
         # included in the data returned. Really should have a get_from_cache method
         # which checks, and updates the cache where needed to match the request.
         # Also should limit end_time by local exchange time.
-        print('starttttttttttttttttttttt')
         if instrument in self._data_cache:
             # Use cached data
             candles = self._data_cache[instrument]
@@ -706,9 +705,11 @@ class Broker(AbstractBroker):
         count = count if count is not None else len(candles)
         if self._paper_trading:
             # Do not need to to a time check
+            print('papertradingggggggggggggggggggggg')
             candles = candles.tail(count)
         else:
             # Backtesting - check for lookahead
+            print('backtestttttttttttttttttttt')
             candles = candles.loc[candles.index < self._latest_time].tail(count)
         print('endddddddddddddddddddddddddd')
 
