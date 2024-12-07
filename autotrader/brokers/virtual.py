@@ -616,7 +616,6 @@ class Broker(AbstractBroker):
         """
 
         # Get all instrument fills
-        print('noooooooooooooooooooooooooooo')
         all_trades = self._fills
 
         if instrument:
@@ -626,7 +625,6 @@ class Broker(AbstractBroker):
         else:
             # Return all trades
             trades = all_trades
-        print('hiiiiiiiiiiiiiiiiiiiiiiiiii')
 
         # Convert to a dict with keys by id
         trades_dict = {fill.id: fill for fill in all_trades}
@@ -678,7 +676,7 @@ class Broker(AbstractBroker):
         # included in the data returned. Really should have a get_from_cache method
         # which checks, and updates the cache where needed to match the request.
         # Also should limit end_time by local exchange time.
-
+        print('starttttttttttttttttttttt')
         if instrument in self._data_cache:
             # Use cached data
             candles = self._data_cache[instrument]
@@ -698,6 +696,8 @@ class Broker(AbstractBroker):
             # Add to cache
             self._data_cache[instrument] = candles
 
+        print('middleeeeeeeeeeeeeeeeeeeeeee')
+
         # Remove future data
         # TODO - review future check logic - need to account for candle duration
         # Candles are indexed by the opening time, so the latest candle opening must
@@ -710,6 +710,7 @@ class Broker(AbstractBroker):
         else:
             # Backtesting - check for lookahead
             candles = candles.loc[candles.index < self._latest_time].tail(count)
+        print('endddddddddddddddddddddddddd')
 
         return candles
 
