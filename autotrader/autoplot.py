@@ -516,27 +516,13 @@ class AutoPlot:
             if data.name is None:
                 data.name = "name"
 
-        # If self._data['date'] is timezone-aware
-        if self._data['date'].dt.tz is not None:
-            # If data.index is naive, localize it to the same timezone as self._data['date']
-            if data.index.tz is None:
-                data.index = data.index.tz_localize(self._data['date'].dt.tz)
-            # If data.index is already aware, convert it to the same timezone as self._data['date']
-            else:
-                data.index = data.index.tz_convert(self._data['date'].dt.tz)
-        else:
-            # If self._data['date'] is naive, make data.index timezone-naive
-            if data.index.tz is None:
-                data.index = data.index.tz_localize(None)
-            else:
-                data.index = data.index.tz_convert(None)
-
-        # Printing to verify the result
+        # If self._data['date'] is timezone-aware (e.g., UTC), make data['date'] the same timezone-aware
+        _data = self._data.copy(deep=True)
+        _data['date'] = _data['date'].dt.tz_localize(None)
         print('---')
-        print(data.index)  # To check the timezone of data.index
-        print(self._data['date'])  # To check the timezone of self._data['date']
+        print(data.index)
+        print(self._data['date'])
 
-        # Merge the dataframes on 'date' and 'index'
         merged_data = pd.merge(
             self._data, data, left_on="date", right_index=True
         ).fillna("")
