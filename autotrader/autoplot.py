@@ -520,7 +520,10 @@ class AutoPlot:
         if self._data['date'].dt.tz is not None:
             print("data.index")
             print(data.index)
-            data['date'] = data.index.tz_convert('UTC')  # Adjust to match the timezone (UTC)
+            if data.index.tz is None:
+                data.index = data.index.tz_localize("UTC")
+            else:
+                data['date'] = data.index.tz_convert('UTC')  # Adjust to match the timezone (UTC)
         else:
             data['date'] = data.index.tz_localize(None)  # Make timezone-naive if self._data['date'] is naive
 
