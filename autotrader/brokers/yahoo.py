@@ -94,19 +94,19 @@ class Broker(Broker):
                 + "valid for Yahoo Finance."
             )
 
+        print('checking')
         if count is not None and start_time is None and end_time is None:
             # Convert count to start and end dates (assumes end=now)
             end_time = datetime.now()
             start_time = end_time - timedelta(
                 seconds=self._granularity_to_seconds(granularity, "yahoo") * 1.5 * count
             )
+        print('ok')
 
         # Fetch data
-        print('checking')
         data = self.api(
             tickers=instrument, start=start_time, end=end_time, interval=granularity
         )
-        print('ok')
 
         # Remove excess data
         if count is not None and start_time is None and end_time is None:
