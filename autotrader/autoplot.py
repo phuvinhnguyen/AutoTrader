@@ -524,7 +524,7 @@ class AutoPlot:
         print(self._data['date'])
 
         merged_data = pd.merge(
-            self._data, data, left_on="date", right_index=True
+            _data, data, left_on="date", right_index=True
         ).fillna("")
 
         if name is not None:
