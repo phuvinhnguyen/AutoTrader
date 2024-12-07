@@ -516,7 +516,7 @@ class AutoPlot:
             if data.name is None:
                 data.name = "name"
 
-        merged_data = pd.merge(
+        merged_data = pd.concat(
             self._data, data, left_on="date", right_index=True
         ).fillna("")
 
