@@ -707,7 +707,7 @@ class Broker(AbstractBroker):
             candles = candles.tail(count)
         else:
             # Backtesting - check for lookahead
-            print(self.candles.index)
+            print(candles.index)
             print(self._latest_time)
             candles = candles.loc[candles.index < self._latest_time].tail(count)
         print('endddddddddddddddddddddddddd')
