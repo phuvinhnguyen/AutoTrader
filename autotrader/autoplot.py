@@ -529,6 +529,7 @@ class AutoPlot:
                 data['date'] = data.index.tz_convert(None)
         print('---')
         print(data.index)
+        print(data['date'].dt)
         print(self._data['date'].dt)
 
         merged_data = pd.merge(
