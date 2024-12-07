@@ -516,7 +516,7 @@ class AutoPlot:
             if data.name is None:
                 data.name = "name"
 
-        data = data.tz_convert(self._data["date"][0].tzinfo)
+        data = data.tz_localize(None)
         merged_data = pd.merge(
             self._data, data, left_on="date", right_index=True
         ).fillna("")
