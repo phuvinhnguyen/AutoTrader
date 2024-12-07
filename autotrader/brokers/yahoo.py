@@ -2,6 +2,7 @@ from __future__ import annotations
 import pandas as pd
 from autotrader.brokers.broker import Broker
 from datetime import datetime, timezone, timedelta
+import time
 
 try:
     import yfinance
@@ -103,6 +104,7 @@ class Broker(Broker):
                 seconds=self._granularity_to_seconds(granularity, "yahoo") * 1.5 * count
             )
         print('ok')
+        time.sleep(500)
 
         # Fetch data
         data = self.api(
